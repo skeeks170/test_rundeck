@@ -29,4 +29,9 @@ public class AdminsController {
         return "http GET request to delete the admin";
     }
 
+    @GetMapping
+    public String ping(){
+        return "welcome to the admin page";
+    }
+
 }
