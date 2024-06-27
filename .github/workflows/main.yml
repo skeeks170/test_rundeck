@@ -7,7 +7,7 @@
   jobs:
     build-deploy:
       name: build and deploy spring-api
-      runs-on: ubuntu-20.04
+      runs-on: ubuntu-latest
       steps:
         - name: checkout code
           uses: actions/checkout@v3
@@ -21,15 +21,15 @@
         - name: unit tests
           run: mvn -B test --file pom.xml
         
-        - name: SonarQube Scan
-          uses: kitabisa/sonarqube-action@v1.2.0
-          env:
-            SONAR_SCANNER_OPTS: -X
-          with:
-            host: ${{ secrets.SONARQUBE_HOST }}
-            login: ${{ secrets.SONARQUBE_TOKEN }}
-            projectBaseDir: "src/"
-            projectKey: "my-custom-project"
+#        - name: SonarQube Scan
+#          uses: kitabisa/sonarqube-action@v1.2.0
+#          env:
+#            SONAR_SCANNER_OPTS: -X
+#          with:
+#            host: ${{ secrets.SONARQUBE_HOST }}
+#            login: ${{ secrets.SONARQUBE_TOKEN }}
+#            projectBaseDir: "src/"
+#            projectKey: "my-custom-project"
           
          
         - name: build the app
@@ -37,25 +37,31 @@
             mvn clean
             mvn -B package --file pom.xml
 
-        - name: build the docker image
-          uses: docker/build-push-action@v4
-          with:
-            context: .
-            dockerfile: Dockerfile
-            push: false
-            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rest-api:v1.0.0
+#        - name: build the docker image
+#          uses: docker/build-push-action@v4
+#          with:
+#            context: .
+#            dockerfile: Dockerfile
+#            push: false
+#            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rest-api:v1.0.0
+#
+#        - name: login to docker hub
+#          uses: docker/login-action@v1
+#          with:
+#            username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+#
+#        - name: push the docker image to docker hub
+#          uses: docker/build-push-action@v4
+#          with:
+#            context: .
+#            dockerfile: Dockerfile
+#            push: true
+#            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rest-api:v1.0.0
 
-        - name: login to docker hub
-          uses: docker/login-action@v1
-          with:
-            username: ${{ secrets.DOCKER_HUB_USERNAME }}
-            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-        - name: push the docker image to docker hub
-          uses: docker/build-push-action@v4
-          with:
-            context: .
-            dockerfile: Dockerfile
-            push: true
-            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rest-api:v1.0.0
+        - name: Trigger Rundeck Job
+          run: |
+            curl -X POST "https://8119-2401-4900-1c27-e082-7dd4-ba69-44d-ff65.ngrok-free.app/api/37/job/43893daa-59d4-4a72-a2c8-9b355d617a17/run" \
+            -H "X-Rundeck-Auth-Token: ${{ secrets.RUNDECK_TOKEN }}" \
+            -H "Content-Type: application/json"
 
