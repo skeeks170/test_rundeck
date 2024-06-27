@@ -61,7 +61,7 @@
 
         - name: Trigger Rundeck Job
           run: |
-            curl -X POST "https://8119-2401-4900-1c27-e082-7dd4-ba69-44d-ff65.ngrok-free.app/api/37/job/43893daa-59d4-4a72-a2c8-9b355d617a17/run" \
+            curl -X POST "https://8119-2401-4900-1c27-e082-7dd4-ba69-44d-ff65.ngrok-free.app/api/37/job/f49cb869-a0cb-4ef3-af2b-9870014d97e9/run" \
             -H "X-Rundeck-Auth-Token: ${{ secrets.RUNDECK_TOKEN }}" \
             -H "Content-Type: application/json"
 
