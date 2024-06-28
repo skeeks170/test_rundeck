@@ -27,9 +27,9 @@ public class AdminsController {
     public String deleteAdmin(){
         return "http GET request to delete the admin";
     }
-    @GetMapping(path = "ping")
+    @GetMapping(path = "/")
     public String ping(){
-        return "welcome to the admin page";
+        return "welcome to the rundeck test";
     }
 
 }
