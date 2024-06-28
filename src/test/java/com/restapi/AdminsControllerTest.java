@@ -81,7 +81,7 @@ class AdminsControllerTest {
         //   Diffblue Cover was unable to create a Spring-specific test for this Spring method.
 
         // Arrange, Act and Assert
-        assertEquals("welcome to the admin page", (new AdminsController()).ping());
+        assertEquals("welcome to the rundeck test", (new AdminsController()).ping());
     }
 
 }
